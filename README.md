@@ -99,7 +99,10 @@ This project is tailored specifically for academic defense presentations, resear
 
 📧 Contact & Collaboration
 
-Developed by an AI Collaborator and Graphics/Deep Learning Enthusiast. For academic questions, research networking, or engineering collaborations regarding Neural Fields and Video Compression systems, feel free to drop a message:
+Developed by an AI Collaborator and Graphics/Deep Learning Enthusiast.
+For academic questions, research networking, or engineering collaborations regarding Neural Fields and Video
+Compression systems,
+feel free to drop a message:
 
   *  Developer Email: Entite012@gmail.com
 

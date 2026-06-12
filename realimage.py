@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
+
 # Connect with your RTX 3050 CUDA cores
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"Accelerating Photorealistic Engine on: {device}")
@@ -142,21 +143,18 @@ with torch.no_grad():
     grid_x_h, grid_y_h = torch.meshgrid(x_high, y_high, indexing='ij')
     high_res_coords = torch.stack([grid_x_h, grid_y_h], dim=-1).view(-1, 2)
     
-    # Querying the learned SIREN weights for the massive grid
-    print(f"Evaluating {TEST_HIGH_RES}x{TEST_HIGH_RES} implicit continuous mathematical field...")
-    predicted_high_rgb = model(high_res_coords)
-    
-    # Reshaping back to image space
-    hd_reconstructed = predicted_high_rgb.view(TEST_HIGH_RES, TEST_HIGH_RES, 3).cpu().numpy()
-    hd_reconstructed = np.clip(hd_reconstructed, 0.0, 1.0)
+ # Querying the learned SIREN weights for the massive grid
+print(f"Evaluating {TEST_HIGH_RES}x{TEST_HIGH_RES} implicit continuous mathematical field...")
+predicted_high_rgb = model(high_res_coords)
 
-# Save the pure mathematical continuous asset
-plt.figure(figsize=(12, 12))
-plt.imshow(hd_reconstructed)
-plt.axis('off')
-plt.title(f"Implicit Continuous Neural Render - {TEST_HIGH_RES}x{TEST_HIGH_RES}", color='white', fontsize=14)
-plt.gcf().patch.set_facecolor('black')
+# Reshaping back to image space
+hd_reconstructed = predicted_high_rgb.view(TEST_HIGH_RES, TEST_HIGH_RES, 3).cpu().numpy()
+hd_reconstructed = np.clip(hd_reconstructed, 0.0, 1.0)
 
-plt.savefig("dog_neural_4k.png", facecolor=plt.gcf().get_facecolor(), bbox_inches='tight', dpi=300)
+# ==================== NAYA AUR EXACT CODE ====================
+# Matplotlib ka use karke bina padding aur title ke exact pixels save karna
+plt.imsave("dog_neural_4k.png", hd_reconstructed)
+# =============================================================
+
 print(" Ultra-HD implicit representation asset successfully saved to 'dog_neural_4k.png'!")
 print("=" * 60)

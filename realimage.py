@@ -11,8 +11,8 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 # --- HYPERPARAMETERS & CONFIGURATION ---
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-TRAIN_BATCH_SIZE = 65536  # RTX 3050 ki 6GB VRAM ke liye sabse safe aur fast batch size
-EPOCHS = 2000             # Structural mapping ke liye optimal epochs
+TRAIN_BATCH_SIZE = 65536  # RTX 3050 ki 6GB VRAM ke liye optimal batch size
+EPOCHS = 2000             # Stochastic convergence ke liye perfect epochs
 OMEGA_0 = 30.0            # SIREN ka core frequency scaling parameter fine details ke liye
 
 print(f"🚀 Execution Engine initialized on device: {device}")
@@ -48,8 +48,8 @@ def load_and_preprocess_image(image_path, target_size=(512, 512)):
 
 
 # ==============================================================================
-# 🎯 DHYAN DEIN: AGAR DOG KA DATA NIKALNA HAI TOH YAHAN "dog.png" RAKHO, 
-# AGAR GLASSES KA NIKALNA HAI TOH ISS LINE KO "glasses.png" KAR DENA.
+# 🎯 CONFIGURATION CHECK: 
+# Dog ka data chahiye toh "dog.png" rakho, Glasses ke liye "glasses.png" kar dena.
 # ==============================================================================
 IMAGE_PATH = "dog.png"  
 coords, target_rgb = load_and_preprocess_image(IMAGE_PATH)
@@ -102,7 +102,7 @@ class SIREN(nn.Module):
         x = self.net(x)
         return self.final_linear(x)
 
-# Model initialize karna
+# Model initialization loop - Yahan ab koi syntax crash nahi hoga!
 model = SIREN(omega_0=OMEGA_0).to(device)
 
 
@@ -147,18 +147,20 @@ print("=" * 60)
 
 
 # --- STEP 4: 4K HIGH-RES VALIDATION EVALUATION (INFERENCE PHASE) ---
-TEST_HIGH_RES = 2048  # Absolute 4K / Ultra-HD resolution matrix grid
-print(f"🔍 Evaluating {TEST_HIGH_RES}x{TEST_HIGH_RES} implicit continuous mathematical field on RTX 3050...")
+TEST_HIGH_RES = 2048  # Absolute 4K Ultra-HD resolution matrix grid
+print(f"🔍 Evaluating {TEST_HIGH_RES}x{TEST_HIGH_RES} implicit continuous field on device...")
 
 with torch.no_grad():
     model.eval()
     
-    x_high = torch.linspace(-1, 1, TEST_HIGH_RES, device=device)
-    y_high = torch.linspace(-1, 1, TEST_HIGH_RES, device=device)
+    # Numpy meshgrid coordinate generation matrix to avoid PyTorch version variations
+    x_high = np.linspace(-1, 1, TEST_HIGH_RES, dtype=np.float32)
+    y_high = np.linspace(-1, 1, TEST_HIGH_RES, dtype=np.float32)
+    grid_x_h, grid_y_h = np.meshgrid(x_high, y_high, indexing='xy')
     
-    # Glitch Fix: Grid alignment ko strict Cartesian frames me rakhne ke liye indexing='xy'
-    grid_x_h, grid_y_h = torch.meshgrid(x_high, y_high, indexing='xy')
-    high_res_coords = torch.stack([grid_x_h, grid_y_h], dim=-1).view(-1, 2)
+    # Coordinate stacks array conversion to PyTorch Tensor format
+    high_res_coords_np = np.stack([grid_x_h, grid_y_h], axis=-1).reshape(-1, 2)
+    high_res_coords = torch.from_numpy(high_res_coords_np).to(device)
     
     EVAL_BATCH_SIZE = 131072 
     predicted_high_list = []
@@ -169,42 +171,45 @@ with torch.no_grad():
         predicted_high_list.append(chunk_preds.cpu())
         
     predicted_high_rgb = torch.cat(predicted_high_list, dim=0)
+    
+    # Matrix reshaping reconstruction using tightly bounded parameters
     hd_reconstructed = predicted_high_rgb.view(TEST_HIGH_RES, TEST_HIGH_RES, 3).numpy()
     hd_reconstructed = np.clip(hd_reconstructed, 0.0, 1.0)
 
-# Render output save karna (Inversion fixed)
+# Render output save section
 plt.imsave("neural_output_4k.png", hd_reconstructed)
 print("✅ Ultra-HD implicit representation asset successfully saved to 'neural_output_4k.png'!")
 print("=" * 60)
 
 
 # ==============================================================================
-# --- STEP 5: UPGRADED DATA EXTRACTION WITH SYSTEMATIC STRUCTURAL FLATTENING ---
+# --- STEP 5: DATA EXTRACTION WITH SYSTEMATIC STRUCTURAL FLATTENING ---
 # ==============================================================================
 print("💾 Extracting optimized value vectors and wave attributes for dataset creation...")
 
-# 1. Tumhara mathematical flattening block jo strict sequential order maintain karta hai
+# Mathematical flattening routine keeping strict sequential order locked
 with torch.no_grad():
     ordered_vectors = []
     
-    # State dict hamesha layers ke exact structural order me execute hota hai
+    # Layer sequential architecture mapping matrix
     for name, param in model.state_dict().items():
-        # Har ek weight aur bias layer ko ek strict order me flatten karke list me daalna
         ordered_vectors.append(param.detach().cpu().view(-1))
         
-    # Pura model ab ek SINGLE LONG ROW VECTOR ban chuka hai! (Strict Positional Alignment Locked)
+    # Pura model ab ek SINGLE LONG ROW VECTOR ban chuka hai!
     flat_model_row = torch.cat(ordered_vectors).numpy()
 
 # ==============================================================================
-# 🎯 DHYAN DEIN: AGAR DOG KA DATA HAI TOH PROFILE TOKENS CHANGE KAREIN:
-# Dog ke liye:       "image_id": "dog_001",     "prompt_token": 0,  "output_filename": "extracted_siren_data_001.pt"
-# Glasses ke liye:   "image_id": "glasses_001", "prompt_token": 1,  "output_filename": "extracted_siren_data_002.pt"
+# 🎯 DATASET ID ASSIGNMENT PROFILE TOKENS:
+# Dog data extraction configuration:
+#   "image_id": "dog_001", "prompt_token": 0, "output_filename": "extracted_siren_data_001.pt"
+# Glasses data extraction configuration:
+#   "image_id": "glasses_001", "prompt_token": 1, "output_filename": "extracted_siren_data_002.pt"
 # ==============================================================================
 extracted_snapshot = {
-    "image_id": "dog_001",                 # Agar glasses ho toh change to "glasses_001"
+    "image_id": "dog_001",                 # Glasses ke liye change to "glasses_001"
     "prompt_token": 0,                     # Dog = 0, Glasses = 1
-    "omega_0": OMEGA_0,                    # Base frequency scaling factor
-    "flat_weights_vector": flat_model_row   # Aligned ordered array vector 
+    "omega_0": OMEGA_0,                    
+    "flat_weights_vector": flat_model_row   
 }
 
 output_filename = "extracted_siren_data_001.pt"  # Glasses ke liye change to "extracted_siren_data_002.pt"

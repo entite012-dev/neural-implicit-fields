@@ -2,7 +2,7 @@
 
 ├── data/
 │   ├── dog.png
-│   └── glasses.png
+│   └── glass.png
 │
 ├── serialized_assets/
 │   ├── extracted_siren_data_001.pt

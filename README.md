@@ -139,35 +139,56 @@ In deep generative modeling, standard architectures (like MLPs or CNNs) allow fo
 
 ## 🔮 Future Works & Architectural Roadmap
 
-To evolve this framework beyond forward-pass pixel-level synthesis and achieve true unified parameter-space neural composition, the following research pathways are proposed for future development:
+To evolve this framework beyond forward-pass pixel-level synthesis and achieve true unified parameter-space neural composition, the following research pathways
+are proposed for future development:
 
 ### 1. Neural Fields Modulated Style Mapping (Modulated SIREN)
-Instead of naively concatenating coordinates with identity keys, future iterations will implement a **Style-Based Mapping Network** (similar to StyleGAN/Pi-GAN). The latent embeddings will pass through a dedicated mapping network to compute explicit scale ($\gamma$) and shift ($\beta$) vectors, modulating hidden layer feature spaces dynamically without touching coordinate frequency primitives:
+
+Instead of naively concatenating coordinates with identity keys, future iterations will implement a **Style-Based Mapping Network** (similar to StyleGAN/Pi-
+GAN). The latent embeddings will pass through a dedicated mapping network to compute explicit scale ($\gamma$) and shift ($\beta$) vectors, modulating hidden
+layer feature spaces dynamically without touching coordinate frequency primitives:
 $$\text{Layer}_{\text{out}} = \sin \left( \omega_0 \cdot (\gamma \cdot \mathbf{W}\mathbf{x} + \beta) \right)$$
 
 ### 2. Parameter Matrix Alignment via Wasserstein Barycenters
 To fix the Phase 1 parameter-space collapse, we plan to implement **Optimal Transport (Wasserstein Distance)** to structurally align weight distributions across independent checkpoints before executing hyper-generation. Aligning the hidden layer permutation weights prevents phase cancellation during linear boundary tracking.
 
 ### 3. Asynchronous Multi-Scale NeRF Integration
-Extending the 2D coordinate space mapping $[X, Y \to \text{RGB}]$ into high-dimensional 3D spatial field representations $[X, Y, Z, \theta, \phi \to \text{RGB}, \sigma]$ to test composition bounds on complex 3D scenes (Neural Radiance Fields). This setup will include asynchronous multi-gpu chunk evaluators to sample sub-pixel bounds up to native 8K display configurations.
+Extending the 2D coordinate space mapping $[X, Y \to \text{RGB}]$ into high-dimensional 3D spatial field representations $[X, Y, Z, \theta, \phi \to \text{RGB},
+\sigma]$ to test composition bounds on complex 3D scenes (Neural Radiance Fields). This setup will include asynchronous multi-gpu chunk evaluators to sample
+sub-pixel bounds up to native 8K display configurations.
 
 
 
 ## 🎬 🎮 🥽 Industry Impact & Real-World Paradigm Shifts (Cinema, Gaming, & VR)
 
-The transition from discrete pixel grids to continuous functional fields (INRs) fundamentally breaks the dependency on traditional rasterized media. By compressing complex multi-modal visual assets into compact mathematical function weights and utilizing functional-space blending, we can unlock massive efficiency gains across next-generation entertainment ecosystems:
+The transition from discrete pixel grids to continuous functional fields (INRs) fundamentally breaks the dependency on traditional rasterized media. By
+compressing complex multi-modal visual assets into compact mathematical function weights and utilizing functional-space blending, we can unlock massive
+efficiency gains across next-generation entertainment ecosystems:
 
 ### 1. The Future of Cinema (Infinite Resolution Streaming)
-* **The Current Bottleneck:** Streaming 4K or 8K video content requires massive network bandwidth, heavy video codecs (HEVC/AV1), and petabytes of server storage space to hold static frame arrays.
-* **The INR Reality:** A movie is no longer stored as a sequence of JPEG/PNG frames. Instead, the entire film is parameterized into a single spatio-temporal continuous coordinate network ($[X, Y, T] \to \text{RGB}$). 
-* **The Memory & Bandwidth Savvy:** Instead of downloading gigabytes of raw pixel data, the user's device simply streams a series of highly compressed network parameter weight vectors (a few megabytes). The client-side GPU evaluates the continuous field locally at whatever native resolution the screen demands. This achieves **infinite-resolution cinema with a $90\%+$ reduction in storage and bandwidth footprint**.
+* **The Current Bottleneck:** Streaming 4K or 8K video content requires massive network bandwidth, heavy video codecs (HEVC/AV1), and petabytes of server
+storage space to hold static frame arrays.
+* **The INR Reality:** A movie is no longer stored as a sequence of JPEG/PNG frames. Instead, the entire film is parameterized into a single spatio-temporal
+continuous coordinate network ($[X, Y, T] \to \text{RGB}$). 
+* **The Memory & Bandwidth Savvy:** Instead of downloading gigabytes of raw pixel data, the user's device simply streams a series of highly compressed network
+parameter weight vectors (a few megabytes). The client-side GPU evaluates the continuous field locally at whatever native resolution the screen demands. This
+achieves **infinite-resolution cinema with a $90\%+$ reduction in storage and bandwidth footprint**.
 
 ### 2. Next-Gen Gaming (Infinite Asset Detail & Parametric Morphing)
-* **The Current Bottleneck:** Modern 3D games take up $100\text{ GB} - 200\text{ GB}$ of disk space primarily due to ultra-high-resolution texture maps (diffuse, normal, roughness grids) and dense polygon meshes (Nanite geometry).
+* **The Current Bottleneck:** Modern 3D games take up $100\text{ GB} - 200\text{ GB}$ of disk space primarily due to ultra-high-resolution texture maps
+(diffuse, normal, roughness grids) and dense polygon meshes (Nanite geometry).
 * **The INR Reality:** Using functional networks, 3D object surfaces and textures are replaced by Coordinate MLPs. 
-* **Zero-Interference Asset Compositing:** As demonstrated by our **Functional-Space Dual Forward Blending** workflow, combining distinct gaming assets (e.g., morphing a character model, swapping armor layers, or applying environmental damage overlays) can be executed dynamically on the fly during the forward pass. By bypassing heavy parameter-space modifications, game engines can execute **instant, artifact-free asset synthesis directly in VRAM**, completely eradicating texture-pop-ins and drastically lowering memory usage.
+* **Zero-Interference Asset Compositing:** As demonstrated by our **Functional-Space Dual Forward Blending** workflow, combining distinct gaming assets (e.g.,
+morphing a character model, swapping armor layers, or applying environmental damage overlays) can be executed dynamically on the fly during the forward pass. By
+bypassing heavy parameter-space modifications, game engines can execute **instant, artifact-free asset synthesis directly in VRAM**, completely eradicating
+texture-pop-ins and drastically lowering memory usage.
 
 ### 3. Virtual & Augmented Reality (Ultra-Low Latency VR/AR)
-* **The Current Bottleneck:** VR and AR headsets require rendering dual high-refresh-rate displays (90Hz - 120Hz) simultaneously. The heavy computation overhead leads to battery drain, thermal throttling, and rendering latency, which induces motion sickness.
-* **The INR Reality:** By training scenes as continuous neural fields (like Neural Radiance Fields or Modulated SIRENs), the entire 3D environment is stored within a frozen, lightweight weight matrix.
-* **Foveated Rendering Efficiency:** VR headsets equipped with eye-tracking can query the coordinate grid at extreme high densities *only* where the user is looking, while sampling the periphery at a lower coordinate step size. Functional blending allows real-time lightning changes and object movements to be superimposed instantly in the continuous space, drastically reducing rendering pipeline delays and opening the door to **standalone, lightweight, photorealistic VR hardware**.
+* **The Current Bottleneck:** VR and AR headsets require rendering dual high-refresh-rate displays (90Hz - 120Hz) simultaneously. The heavy computation
+overhead leads to battery drain, thermal throttling, and rendering latency, which induces motion sickness.
+* **The INR Reality:** By training scenes as continuous neural fields (like Neural Radiance Fields or Modulated SIRENs), the entire 3D environment is stored
+within a frozen, lightweight weight matrix.
+* **Foveated Rendering Efficiency:** VR headsets equipped with eye-tracking can query the coordinate grid at extreme high densities *only* where the user is
+looking, while sampling the periphery at a lower coordinate step size. Functional blending allows real-time lightning changes and object movements to be
+superimposed instantly in the continuous space, drastically reducing rendering pipeline delays and opening the door to **standalone, lightweight,
+photorealistic VR hardware**.

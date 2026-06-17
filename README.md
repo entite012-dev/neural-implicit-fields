@@ -1,3 +1,21 @@
+# 🧠 Compositional Manipulation of Implicit Neural Representations (INRs)
+
+A high-performance PyTorch framework exploring continuous coordinate-based representations, multimodal parameter mapping constraints, and seamless functional-space field synthesis using Sinusoidal Representation Networks (SIREN).
+
+---
+
+## 📌 Project Overview
+
+This research project focuses on the advanced manipulation of **Implicit Neural Representations (INRs)**. Instead of representing images as discrete grids of pixels, we represent them as continuous functions parameterized by deep neural networks. 
+
+The core objective of this repository is to solve a fundamental challenge in neural fields: **How to seamlessly blend or compose two independent neural networks (e.g., a continuous field representing a 'Dog' and another representing 'Glasses') without causing structural or phase distortion.**
+
+### 🔬 The Core Scientific Problem
+Traditional neural architectures allow for straightforward latent space interpolations. However, coordinate networks utilizing periodic activation functions—like SIREN ($\sin(\omega_0 \cdot x)$)—possess highly non-convex parameter spaces. Modifying or interpolating their weights directly leads to destructive phase interference, causing the generated visual manifold to completely collapse into high-frequency static noise.
+
+### 💡 Our Solution
+To overcome this constraint, this framework introduces and validates **Functional-Space Dual Forward Blending**. By treating the serialized checkpoints as independent analytical continuous functions, we execute coordinate evaluation blocks in parallel and interpolate directly on the generated forward field slices. This completely bypasses the non-Euclidean parameter limitations, achieving pristine, artifact-free compositions up to extreme high-resolution bounds (tested and verified at native 4K scaling).
+
 
 # Compositional Blending of Implicit Neural Representations via Continuous Functional Fields
 

@@ -123,9 +123,8 @@ Leverages asynchronous VRAM tensor stacks to evaluate a high-density grid (2048�
 
 
 
----
 
-## 🔬 Reality vs. Expectation (Experimental Analysis)
+#  Reality vs. Expectation (Experimental Analysis)
 
 In deep generative modeling, standard architectures (like MLPs or CNNs) allow for linear parameter scaling. However, when working with Implicit Neural Representations (INRs), there is a significant divergence between theoretical expectations and physical reality.
 
@@ -141,7 +140,7 @@ In deep generative modeling, standard architectures (like MLPs or CNNs) allow fo
 * **The Expectation:** Merging explicit RGB outputs bypasses weight limits but theoretically relies on structural superposition rather than unified representation modeling.
 * **The Reality:** Perfect, razor-sharp 4K multi-modal alignment. Since the coordinate transformation matrix is computed separately within independent locked phase weights, the continuous field properties are fully preserved, preventing any topological distortion.
 
----
+
 
 ## 🔮 Future Works & Architectural Roadmap
 
@@ -163,7 +162,7 @@ Extending the 2D coordinate space mapping $[X, Y \to \text{RGB}]$ into high-dime
 
 
 
----
+
 
 ## 🎬 🎮 🥽 Industry Impact & Real-World Paradigm Shifts (Cinema, Gaming, & VR)
 

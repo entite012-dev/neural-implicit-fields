@@ -1,0 +1,18 @@
+dual-approach/
+│
+├── data/
+│   ├── dog.png
+│   └── glasses.png
+│
+├── serialized_assets/
+│   ├── extracted_siren_data_001.pt
+│   └── extracted_siren_data_002.pt
+│
+├── outputs/
+│   ├── final_hybrid_composition_4k.png   <-- (Phase 1: Noise Asset)
+│   └── final_perfect_blend_4k.png        <-- (Phase 2: Flawless Output)
+│
+├── verify_dog_extract.py
+├── functional_blend.py                   <-- (The Winning Solution Script)
+├── hypergenerator.py
+└── README.md                             <-- (Main Documentation)

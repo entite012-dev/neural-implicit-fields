@@ -55,7 +55,7 @@ dual-approach/
 ├── serialized_assets/
 │   ├── extracted_siren_data_001.pt      # Optimized functional weights for Image 1 (Dog)
 │   └── extracted_siren_data_002.pt      # Optimized functional weights for Image 2 (Glasses)
-│
+│   
 ├── outputs/
 │   ├── final_hybrid_composition_4k.png  # Phase 1: Parameter Phase Collapse Asset
 │   ├── latent_hybrid_blend_1k.png       # Phase 2: Under-parameterized Mean Blur Asset

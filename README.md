@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/535d21fa-abba-4921-8fee-d4249b65cac0" />#  Compositional Manipulation of Implicit Neural Representations (INRs)
+Compositional Manipulation of Implicit Neural Representations (INRs)
 
 A high-performance PyTorch framework exploring continuous coordinate-based representations, multimodal parameter mapping constraints, and seamless functional-space field synthesis using Sinusoidal Representation Networks (SIREN).
 

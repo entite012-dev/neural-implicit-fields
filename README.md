@@ -1,4 +1,4 @@
-#  Compositional Manipulation of Implicit Neural Representations (INRs)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/535d21fa-abba-4921-8fee-d4249b65cac0" />#  Compositional Manipulation of Implicit Neural Representations (INRs)
 
 A high-performance PyTorch framework exploring continuous coordinate-based representations, multimodal parameter mapping constraints, and seamless functional-space field synthesis using Sinusoidal Representation Networks (SIREN).
 
@@ -192,3 +192,48 @@ within a frozen, lightweight weight matrix.
 looking, while sampling the periphery at a lower coordinate step size. Functional blending allows real-time lightning changes and object movements to be
 superimposed instantly in the continuous space, drastically reducing rendering pipeline delays and opening the door to **standalone, lightweight,
 photorealistic VR hardware**.
+
+Volumetric 3D World Synthesis: Neural Implicit Walls & Spatial BarriersTo evolve our framework into complex 3D environments, we have introduced Volumetric Neural Barriers.
+*Unlike traditional static geometry, these "3D Walls" are synthesized as dynamic implicit manifolds that exist within the coordinate field.
+*The Scientific Shift: From Surface to Volume
+
+  *We treat the 3D environment not as a set of planes, but as a Density Field $\sigma(\mathbf{x})$.
+      *Dynamic Occlusion: Using the render_neural_mesh.py module, we can inject "Implicit Walls" into a coordinate space. These walls act as non-linear
+       filters: any coordinate query $\mathbf{p}$ that intersects the wall's density threshold ($\sigma(\mathbf{p}) > \tau$) triggers an immediate occlusion
+       event.
+
+
+  *Non-Euclidean Spatial Partitioning: By using a modulated SIREN SDF (Signed Distance Field), these walls can be warped, stretched, or phased-in dynamically
+   without re-meshing.
+
+
+# Experimental ImplementationWe
+ * utilize a Neural Occlusion Mask that sits in the latent coordinate path:
+
+
+      $$\Phi_{\text{world}}(\mathbf{x}) = \text{Blend}(\Phi_{\text{character}}(\mathbf{x}), \text{SDF}_{\text{wall}}(\mathbf{x}))$$
+
+
+
+ * Zero-Polygon Overhead: Because these barriers are purely mathematical, they occupy zero VRAM compared to traditional 3D geometry which requires heavy
+   triangle buffers.
+
+  * Infinite Detail: As the camera approaches the "Neural Wall," the implicit field is queried at a higher resolution, rendering sharp, crisp edges that do not
+    exhibit standard aliasing or texture-pixelation.
+
+    
+[Updated Pipeline Addition]
+
+* Integrated 3D Scene Synthesis Module:Python# Synthesis of a 3D wall barrier   within the neural field
+
+
+   def render_occluded_scene(coords, wall_sdf_weights):
+         # Query coordinate against the character field
+         char_rgb = model_character(coords)
+        # Query coordinate against the implicit wall field
+         wall_density = wall_sdf(coords, wall_sdf_weights)
+    
+    # Apply occlusion logic
+    final_output = apply_neural_mask(char_rgb, wall_density)
+    return final_output
+
